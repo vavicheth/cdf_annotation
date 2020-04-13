@@ -71,12 +71,33 @@
         <button class="btn btn-primary btn-sm" onclick="savePDF()"><i class="fa fa-save"></i> Save and Close</button>
     </div>
 
+    <div class="tool">
+        <button class="btn btn-primary btn-sm" onclick="setValue()"><i class="fa fa-save"></i> Set</button>
+    </div>
+
+    <div class="tool">
+{{--        <form class="form-horizontal file-upload" method="post" enctype="multipart/form-data">--}}
+{{--            {!! Form::open(['method' => 'POST', 'route' => ['admin.documents.save_pdf'], 'files' => true,]) !!}--}}
+{{--            {{ csrf_field() }}--}}
+{{--            <input type="text" name="media_id" value="{{$media->id}}" hidden>--}}
+{{--            <input type="text" name="media_file" value="{{$media->file_name}}" hidden>--}}
+{{--            <input type="text" name="document_id" value="{{$document->id}}" hidden>--}}
+
+{{--            <input type="file" name="pdf" id="import_file" >--}}
+
+{{--            <br>--}}
+{{--            <button class="btn btn-primary btn-sm" type="submit" id="send_data"><i class="fa fa-save"></i> submit</button>--}}
+{{--        </form>--}}
+{{--        {!! Form::close() !!}--}}
+    </div>
 </div>
 <div id="pdf-container"></div>
 
 <div class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
-        <span class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: white"></span>
+        <span class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: white"></span><br>
+        <span id="text_state" style="color: white">Uploading</span>
+
     </div>
 </div>
 
@@ -97,6 +118,68 @@
 
 <script>
 
+    $(document).ready(function(){
+
+        $('form').submit(function(event){
+
+
+            {{--// $('.modal').modal({--}}
+            {{--//     backdrop: 'static',--}}
+            {{--//     keyboard: false--}}
+            {{--// });--}}
+            {{--// var data = pdf.savePdfToServer();--}}
+            {{--// uploadFile({'pdf':data});--}}
+
+            {{--event.preventDefault();--}}
+            {{--var blob = pdf.savePdfToServer();--}}
+            {{--$("#import_file").attr('value',blob);--}}
+            {{--alert($("#import_file").val());--}}
+
+
+
+
+
+
+            {{--event.preventDefault();--}}
+
+            {{--// var blob = pdf.savePdfToServer();--}}
+            {{--// var pdf_file = document.getElementById("import_file");--}}
+            {{--// pdf_file.value = blob;--}}
+
+            {{--// var formData = new FormData(this);--}}
+            {{--// var blob = pdf.savePdfToServer();--}}
+            {{--// formData.append('pdf', blob);--}}
+
+
+            {{--var xhr = new XMLHttpRequest();--}}
+            {{--xhr.open('POST', '{{ route('admin.documents.save_pdf') }}', true);--}}
+            {{--xhr.onload = function(e) {--}}
+            {{--    // alert (response);--}}
+            {{--    alert ('Test');--}}
+            {{--    // close();--}}
+            {{--};--}}
+
+            {{--xhr.send(formData);--}}
+
+
+            {{--$.ajax({--}}
+            {{--    headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },--}}
+            {{--    url: "{{ route('admin.documents.save_pdf') }}",--}}
+            {{--    data: formData,--}}
+            {{--    type: 'post',--}}
+            {{--    async: false,--}}
+            {{--    processData: false,--}}
+            {{--    contentType: false,--}}
+            {{--    success:function(response){--}}
+            {{--        console.log(response);--}}
+            {{--        // close();--}}
+            {{--        // alert('uploaded');--}}
+            {{--    }--}}
+            {{--});--}}
+
+        });
+    });
+
     var pdf = new PDFAnnotate('pdf-container', '{{asset('storage').'/' .$media->id.'/'.$media->file_name}}', {
         onPageUpdated: (page, oldData, newData) => {
             console.log(page, oldData, newData);
@@ -114,6 +197,69 @@
         //     $('.modal').modal('hide');
         // }, 3000);
     }
+
+    function setValue() {
+
+            var blob = pdf.savePdfToServer();
+            var fd = new FormData();
+            fd.append('pdf', blob);
+            fd.append('media_id', {!! json_encode($media->id) !!});
+            fd.append('media_file', {!! json_encode($media->file_name) !!});
+            fd.append('document_id', {!! json_encode($document->id) !!});
+            $.ajax({
+                headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+                url: '{{ route('admin.documents.save_pdf') }}',
+                type: 'POST',
+                cache: false,
+                data: fd,
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    console.log('Uploading');
+                    modal();
+                    $("#text_state").html("Uploading, please wait....");
+                },
+                success: function () {
+                    console.log('Success!');
+                    $("#text_state").html("Upload success.");
+                },
+                complete: function (response) {
+                    console.log('Complete!');
+                    console.log(response);
+                    $("#text_state").html("Upload complete.");
+                    close();
+                },
+                error: function () {
+                    $("#text_state").html("Upload Error!");
+                    alert("ERROR in upload");
+                }
+            });
+
+
+    }
+
+    function uploadFile (data) {
+        // define data and connections
+        var blob = new Blob([JSON.stringify(data)]);
+        var url = URL.createObjectURL(blob);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'admin/documents/save_pdf', true);
+
+        // define new form
+        var formData = new FormData();
+        formData.append('someUploadIdentifier', blob, 'someFileName.json');
+
+        // action after uploading happens
+        xhr.onload = function(e) {
+            console.log("File uploading completed!");
+            console.log(response);
+        };
+
+        // do the uploading
+        console.log("File uploading started!");
+        xhr.send(formData);
+    }
+
 
 
     function enableSelector(event) {
@@ -168,83 +314,54 @@
     }
 
     function savePDF() {
-        modal();
+        // modal();
         var blob = pdf.savePdfToServer();
         // var blob = pdf.serializePdf();
-
-
-        {{--    $.ajaxSetup({--}}
-        {{--        headers: {--}}
-        {{--            'X-CSRF-TOKEN': "{{ csrf_token() }}"--}}
-        {{--        }--}}
-        {{--    });--}}
-        {{--var myformData = new FormData();--}}
-        {{--myformData.append('pdf', blob);--}}
-        {{--myformData.append('media_id', {!! json_encode($media->id) !!});--}}
-        {{--myformData.append('media_file', {!! json_encode($media->file_name) !!});--}}
-        {{--myformData.append('document_id', {!! json_encode($document->id) !!});--}}
-
-        {{--$.ajax({--}}
-        {{--    method: 'post',--}}
-        {{--    processData: false,--}}
-        {{--    contentType: false,--}}
-        {{--    cache: true,--}}
-        {{--    data: myformData,--}}
-        {{--    enctype: 'multipart/form-data',--}}
-        {{--    url: '{{ route('admin.documents.save_pdf') }}',--}}
-        {{--    success: function (data) {--}}
-        {{--        console.log(data);--}}
-        {{--        close();--}}
-        {{--    }--}}
-        {{--});--}}
-
-        {{--$.ajaxSetup({--}}
-        {{--    headers: {--}}
-        {{--        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-        {{--    }--}}
-        {{--});--}}
-
-        {{--jQuery.ajax({--}}
-        {{--    url: "{{ route('admin.documents.save_pdf') }}",--}}
-        {{--    method: 'post',--}}
-        {{--    enctype: 'multipart/form-data',--}}
-        {{--    data: {--}}
-        {{--        pdf: blob,--}}
-        {{--        media_id: '{{$media->id}}',--}}
-        {{--        media_file: '{{$media->file_name}}',--}}
-        {{--        document_id: '{{$document->id}}',--}}
-
-        {{--    },--}}
-        {{--    success: function (result) {--}}
-        {{--        console.log(data)--}}
-        {{--    }--}}
-        {{--});--}}
-
 
         var formData = new FormData();
         formData.append('pdf', blob);
         formData.append('media_id', {!! json_encode($media->id) !!});
         formData.append('media_file', {!! json_encode($media->file_name) !!});
         formData.append('document_id', {!! json_encode($document->id) !!});
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        {{--formData.append('document_id', {!! json_encode($document->id) !!});--}}
+
+
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            url: "{{ route('admin.documents.save_pdf') }}",
+            data: formData,
+            type: 'post',
+            async: false,
+            processData: false,
+            contentType: false,
+            success:function(response){
+                console.log(response);
+                alert('uploaded');
             }
         });
-        $.ajax('{{ route('admin.documents.save_pdf') }}',
-            {
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data)
-                {
-                    console.log(data);
-                    {{--window.location.href = "{{ route('admin.documents.show',$document->id )}}";--}}
-                    // close();
-                },
-                error: function(data){console.log(data)}
-            });
+
+
+
+
+    {{--$.ajaxSetup({--}}
+        {{--    headers: {--}}
+        {{--        'X-CSRF-TOKEN': "{{ csrf_token() }}"--}}
+        {{--    }--}}
+        {{--});--}}
+        {{--$.ajax('{{ route('admin.documents.save_pdf') }}',--}}
+        {{--    {--}}
+        {{--        method: 'POST',--}}
+        {{--        data: formData,--}}
+        {{--        processData: false,--}}
+        {{--        contentType: false,--}}
+        {{--        success: function(data)--}}
+        {{--        {--}}
+        {{--            console.log(data);--}}
+        {{--            --}}{{--window.location.href = "{{ route('admin.documents.show',$document->id )}}";--}}
+        {{--            // close();--}}
+        {{--        },--}}
+        {{--        error: function(data){console.log(data)}--}}
+        {{--    });--}}
 
     }
 

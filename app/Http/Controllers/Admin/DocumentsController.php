@@ -316,15 +316,17 @@ class DocumentsController extends Controller
             return abort(401);
         }
 
-        if($request->hasFile('pdf'))
+//        return response($request->all());
+
+        if($request->has('pdf'))
         {
-//            $base64img = str_replace('data:application/pdf;base64,', '', $request['pdf']);
-//            $data = base64_decode($base64img);
-//
+            $base64img = str_replace('data:application/pdf;base64,', '', $request['pdf']);
+            $data = base64_decode($base64img);
+
 //            Storage::put($request->media_id.'/'.$request->media_file, $data);
 
 
-//            Storage::disk("public")->put($request->media_id.'/'.$request->media_file, $data);
+            Storage::disk("public")->put($request->media_id.'/'.$request->media_file, $data);
 
 
 //            $base64_image = $request->input('pdf'); // your base64 encoded
@@ -341,9 +343,9 @@ class DocumentsController extends Controller
 //            Storage::put($request->media_id.'/'.$request->media_file, (string) file_get_contents($data), 'public');
 
 
-            $file = $request->file('pdf');
-            Storage::put($request->media_id.'/'.$request->media_file, (string) file_get_contents($file), 'public');
-//
+//            $file = $request->file('pdf');
+//            Storage::put($request->media_id.'/'.$request->media_file, (string) file_get_contents($file), 'public');
+
             //Show approved when DG comment
             if (auth()->id() == 28)
             {
