@@ -182,7 +182,23 @@ PDFAnnotate.prototype.savePdf = function () {
     doc.save('sample.pdf');
 }
 
-PDFAnnotate.prototype.savePdfToServer = function () {
+// PDFAnnotate.prototype.savePdfToServer = function () {
+//     var inst = this;
+//     var doc = new jsPDF();
+//     $.each(inst.fabricObjects, function (index, fabricObj) {
+//         if (index != 0) {
+//             doc.addPage();
+//             doc.setPage(index + 1);
+//         }
+//         doc.addImage(fabricObj.toDataURL(), 'png', 0, 0);
+//     });
+//     // doc.save('sample.pdf');
+//     return doc.output('datauristring');
+//     // return doc.output('blob');
+//
+// }
+
+PDFAnnotate.prototype.savePdfToServer = function ()  {
     var inst = this;
     var doc = new jsPDF();
     $.each(inst.fabricObjects, function (index, fabricObj) {
@@ -192,10 +208,22 @@ PDFAnnotate.prototype.savePdfToServer = function () {
         }
         doc.addImage(fabricObj.toDataURL(), 'png', 0, 0);
     });
-    // doc.save('sample.pdf');
-    return doc.output('datauristring');
-    // return doc.output('blob');
 
+    var file = new File([doc.output('blob')], 'file.pdf', { type: "application/pdf"});
+    // var formData = new FormData();
+    // formData.append('pdf', file);
+    //
+    // jQuery.ajax(link,
+    //     {
+    //         method: 'POST',
+    //         data: formData,
+    //         processData: false,
+    //         contentType: false,
+    //         success: function(data){console.log(data)},
+    //         error: function(data){console.log(data)}
+    //     });
+
+    return file;
 }
 
 PDFAnnotate.prototype.setBrushSize = function (size) {

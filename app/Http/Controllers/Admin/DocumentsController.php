@@ -318,36 +318,40 @@ class DocumentsController extends Controller
 
 //        return response($request->all());
 
-        if ($request->has('pdf')) {
-            $base64img = str_replace('data:application/pdf;base64,', '', $request['pdf']);
-            $data = base64_decode($base64img);
+//        if ($request->has('pdf')) {
+////            $base64img = str_replace('data:application/pdf;base64,', '', $request['pdf']);
+////            $data = base64_decode($base64img);
 //
-//            Storage::put($request->media_id.'/'.$request->media_file, $data);
-
-
-            Storage::disk("public")->put($request->media_id.'/'.$request->media_file, $data);
-
-
-//            $base64_image = $request->input('pdf'); // your base64 encoded
-//            @list($type, $file_data) = explode(';', $base64_image);
-//            @list(, $file_data) = explode(',', $file_data);
-//            $imageName=$request->media_id.'/'.$request->media_file;
-//            Storage::disk('public')->put($imageName, base64_decode($file_data));
-
-
-//            $file = $request->media_id.'/'.$request->media_file;
-//            file_put_contents($file, $data);
-
-//            Storage::put($request->media_id.'/'.$request->media_file, (string) file_get_contents($data), 'public');
-
-            //Show approved when DG comment
-            if (auth()->id() == 28) {
-                $document = Document::findOrFail($request->document_id);
-                $document->update(['submit' => '2']);
-            }
-
-            return response('Successful binary save to file!');
-        }
+////            Storage::put($request->media_id.'/'.$request->media_file, $data);
+//
+//            $data = base64_decode($request['pdf']);
+////            file_put_contents(asset('test.pdf'), $data);
+//
+//
+//
+//            Storage::disk("public")->put($request->media_id.'/'.$request->media_file, $data);
+//
+//
+////            $base64_image = $request->input('pdf'); // your base64 encoded
+////            @list($type, $file_data) = explode(';', $base64_image);
+////            @list(, $file_data) = explode(',', $file_data);
+////            $imageName=$request->media_id.'/'.$request->media_file;
+////            Storage::disk('public')->put($imageName, base64_decode($file_data));
+//
+//
+////            $file = $request->media_id.'/'.$request->media_file;
+////            file_put_contents($file, $data);
+//
+////            Storage::put($request->media_id.'/'.$request->media_file, (string) file_get_contents($data), 'public');
+//
+//            //Show approved when DG comment
+//            if (auth()->id() == 28) {
+//                $document = Document::findOrFail($request->document_id);
+//                $document->update(['submit' => '2']);
+//            }
+//
+//            return response('Successful binary save to file!');
+//        }
 
 
         /**

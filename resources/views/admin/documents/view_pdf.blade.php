@@ -199,7 +199,7 @@
                     console.log('Complete!');
                     console.log(response);
                     $("#text_state").html("Upload complete.");
-                    close();
+                    // close();
                 },
                 error: function () {
                     $("#text_state").html("Upload Error!");
@@ -287,25 +287,29 @@
 
     function savePDF() {
         // modal();
-        var blob = pdf.savePdfToServer();
-        // var blob = pdf.serializePdf();
+        // var blob = pdf.savePdfToServer();
+        var blob = pdf.serializePdf();
+
+        alert(blob);
 
         var formData = new FormData();
         formData.append('pdf', blob);
-        formData.append('media_id', {!! json_encode($media->id) !!});
-        formData.append('media_file', {!! json_encode($media->file_name) !!});
-        formData.append('document_id', {!! json_encode($document->id) !!});
+        {{--formData.append('media_id', {!! json_encode($media->id) !!});--}}
+        {{--formData.append('media_file', {!! json_encode($media->file_name) !!});--}}
+        {{--formData.append('document_id', {!! json_encode($document->id) !!});--}}
         {{--formData.append('document_id', {!! json_encode($document->id) !!});--}}
 
 
         $.ajax({
             headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
             url: "{{ route('admin.documents.save_pdf') }}",
-            data: formData,
+            // data:  formData,
             type: 'post',
             async: false,
             processData: false,
-            contentType: false,
+            // contentType: false,
+            data: JSON.stringify({ pdf:blob, media_id:'{{$media->id}}', media_file: '{{$media->file_name}}', document_id:'{{$document->id}}'}),
+            contentType: "application/json",
             beforeSend: function () {
                 console.log('Uploading');
                 modal();
@@ -319,7 +323,7 @@
                 console.log('Complete!');
                 console.log(response);
                 $("#text_state").html("Upload complete.");
-                close();
+                // close();
             },
             error: function () {
                 $("#text_state").html("Upload Error!");
