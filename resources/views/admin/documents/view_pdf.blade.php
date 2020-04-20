@@ -167,47 +167,45 @@
 
     function setValue() {
 
-        var blob = pdf.savePdfToServer();
-        // $('#form_upload').append('<input name="pdf" id="pdf" type="file" value="'+ blob +'" />');
-        $('#import_file').value(blob);
-        // alert($('#pdf').value());
+        // var blob = pdf.savePdfToServer();
+        // // $('#form_upload').append('<input name="pdf" id="pdf" type="file" value="'+ blob +'" />');
+        // $('#import_file').value(blob);
+        // // alert($('#pdf').value());
 
-
-
-    {{--var blob = pdf.savePdfToServer();--}}
-            {{--var fd = new FormData();--}}
-            {{--fd.append('pdf', blob);--}}
-            {{--fd.append('media_id', {!! json_encode($media->id) !!});--}}
-            {{--fd.append('media_file', {!! json_encode($media->file_name) !!});--}}
-            {{--fd.append('document_id', {!! json_encode($document->id) !!});--}}
-            {{--$.ajax({--}}
-            {{--    headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },--}}
-            {{--    url: '{{ route('admin.documents.save_pdf') }}',--}}
-            {{--    type: 'POST',--}}
-            {{--    cache: false,--}}
-            {{--    data: fd,--}}
-            {{--    processData: false,--}}
-            {{--    contentType: false,--}}
-            {{--    beforeSend: function () {--}}
-            {{--        console.log('Uploading');--}}
-            {{--        modal();--}}
-            {{--        $("#text_state").html("Uploading, please wait....");--}}
-            {{--    },--}}
-            {{--    success: function () {--}}
-            {{--        console.log('Success!');--}}
-            {{--        $("#text_state").html("Upload success.");--}}
-            {{--    },--}}
-            {{--    complete: function (response) {--}}
-            {{--        console.log('Complete!');--}}
-            {{--        console.log(response);--}}
-            {{--        $("#text_state").html("Upload complete.");--}}
-            {{--        close();--}}
-            {{--    },--}}
-            {{--    error: function () {--}}
-            {{--        $("#text_state").html("Upload Error!");--}}
-            {{--        alert("ERROR in upload");--}}
-            {{--    }--}}
-            {{--});--}}
+    var blob = pdf.savePdfToServer();
+            var fd = new FormData();
+            fd.append('pdf', blob);
+            fd.append('media_id', {!! json_encode($media->id) !!});
+            fd.append('media_file', {!! json_encode($media->file_name) !!});
+            fd.append('document_id', {!! json_encode($document->id) !!});
+            $.ajax({
+                headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+                url: '{{ route('admin.documents.save_pdf') }}',
+                type: 'POST',
+                cache: false,
+                data: fd,
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    console.log('Uploading');
+                    modal();
+                    $("#text_state").html("Uploading, please wait....");
+                },
+                success: function () {
+                    console.log('Success!');
+                    $("#text_state").html("Upload success.");
+                },
+                complete: function (response) {
+                    console.log('Complete!');
+                    console.log(response);
+                    $("#text_state").html("Upload complete.");
+                    close();
+                },
+                error: function () {
+                    $("#text_state").html("Upload Error!");
+                    alert("ERROR in upload");
+                }
+            });
 
 
     }
