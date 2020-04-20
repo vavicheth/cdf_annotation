@@ -306,10 +306,29 @@
             async: false,
             processData: false,
             contentType: false,
-            success:function(response){
+            beforeSend: function () {
+                console.log('Uploading');
+                modal();
+                $("#text_state").html("Uploading, please wait....");
+            },
+            success: function () {
+                console.log('Success!');
+                $("#text_state").html("Upload success.");
+            },
+            complete: function (response) {
+                console.log('Complete!');
                 console.log(response);
-                alert('uploaded');
+                $("#text_state").html("Upload complete.");
+                close();
+            },
+            error: function () {
+                $("#text_state").html("Upload Error!");
+                alert("ERROR in upload");
             }
+            // success:function(response){
+            //     console.log(response);
+            //     alert('uploaded');
+            // }
         });
 
 
