@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::get('documents_user', ['uses' => 'Admin\DocumentsController@index_user', 'as' => 'documents.index_user']);
 
     Route::get('/documents/print/{id}','Admin\DocumentsController@print');
+    Route::put('documents/approve/{id}', ['uses' => 'Admin\DocumentsController@approve', 'as' => 'documents.approve']);
     Route::get('/documents/view_pdf/{document_id}/{media_id}',['uses' => 'Admin\DocumentsController@view_pdf', 'as' => 'documents.view_pdf']);
     Route::post('/documents/save_pdf',['uses' => 'Admin\DocumentsController@save_pdf', 'as' => 'documents.save_pdf']);
 

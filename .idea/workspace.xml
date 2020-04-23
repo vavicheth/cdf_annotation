@@ -4,8 +4,9 @@
     <list default="true" id="42ea5b60-b6d8-4601-9bd3-7172bcdc6219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/DocumentsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/DocumentsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/adminlte/plugins/pdfjsannotation/pdfannotate.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/adminlte/plugins/pdfjsannotation/pdfannotate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/documents/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/documents/show.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/documents/view_pdf.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/documents/view_pdf.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,7 +200,8 @@
       <workItem from="1586316509157" duration="9959000" />
       <workItem from="1586743351475" duration="22707000" />
       <workItem from="1586827189864" duration="1851000" />
-      <workItem from="1587354702216" duration="9789000" />
+      <workItem from="1587354702216" duration="12746000" />
+      <workItem from="1587519563490" duration="15126000" />
     </task>
     <servers />
   </component>
@@ -207,10 +209,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="656" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1587354710120">
+    <state x="656" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1587519880708">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="656" y="345" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587354710120" />
+    <state x="656" y="345" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587519880708" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1586826870726">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

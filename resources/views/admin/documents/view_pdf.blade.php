@@ -300,40 +300,37 @@
         {{--formData.append('document_id', {!! json_encode($document->id) !!});--}}
 
 
-        $.ajax({
-            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
-            url: "{{ route('admin.documents.save_pdf') }}",
-            // data:  formData,
-            type: 'post',
-            async: false,
-            processData: false,
-            // contentType: false,
-            data: JSON.stringify({ pdf:blob, media_id:'{{$media->id}}', media_file: '{{$media->file_name}}', document_id:'{{$document->id}}'}),
-            contentType: "application/json",
-            beforeSend: function () {
-                console.log('Uploading');
-                modal();
-                $("#text_state").html("Uploading, please wait....");
-            },
-            success: function () {
-                console.log('Success!');
-                $("#text_state").html("Upload success.");
-            },
-            complete: function (response) {
-                console.log('Complete!');
-                console.log(response);
-                $("#text_state").html("Upload complete.");
-                // close();
-            },
-            error: function () {
-                $("#text_state").html("Upload Error!");
-                alert("ERROR in upload");
-            }
-            // success:function(response){
-            //     console.log(response);
-            //     alert('uploaded');
-            // }
-        });
+        {{--$.ajax({--}}
+        {{--    0--}}
+        {{--    url: "{{ route('admin.documents.save_pdf') }}",--}}
+        {{--    // data:  formData,--}}
+        {{--    type: 'post',--}}
+        {{--    async: false,--}}
+        {{--    processData: false,--}}
+        {{--    // contentType: false,--}}
+        {{--    data: JSON.stringify({ pdf:blob, media_id:'{{$media->id}}', media_file: '{{$media->file_name}}', document_id:'{{$document->id}}'}),--}}
+        {{--    contentType: "application/json",--}}
+        {{--    beforeSend: function () {--}}
+        {{--        console.log('Uploading');--}}
+        {{--        modal();--}}
+        {{--        $("#text_state").html("Uploading, please wait....");--}}
+        {{--    },--}}
+        {{--    success: function () {--}}
+        {{--        console.log('Success!');--}}
+        {{--        $("#text_state").html("Upload success.");--}}
+        {{--    },--}}
+        {{--    complete: function (response) {--}}
+        {{--        console.log('Complete!');--}}
+        {{--        console.log(response);--}}
+        {{--        $("#text_state").html("Upload complete.");--}}
+        {{--        // close();--}}
+        {{--    },--}}
+        {{--    error: function () {--}}
+        {{--        $("#text_state").html("Upload Error!");--}}
+        {{--        alert("ERROR in upload");--}}
+        {{--    }--}}
+        {{--   --}}
+        {{--});--}}
 
 
 

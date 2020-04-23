@@ -153,9 +153,37 @@ class DocumentsController extends Controller
         $document->updateMedia($media, 'file');
         $document->user()->sync($request->users);
 
+        return redirect()->route('admin.documents.index');
+    }
+
+    public function approve(Request $request,$id)
+    {
+        if (!Gate::allows('document_create')) {
+            return abort(401);
+        }
+
+        $request = $this->saveFiles($request);
+        $document = Document::findOrFail($id);
+
+        foreach ($request->input('file_id', []) as $index => $id) {
+            $model = config('medialibrary.media_model');
+            $file = $model::find($id);
+            $file->model_id = $document->id;
+
+            //Edit file name after approved
+            $file->name=$file->name . '-approved';
+
+            $file->save();
+        }
+
+        //Show approved when DG comment
+        if (auth()->id() == 28) {
+            $document->update(['submit' => '2']);
+        }
 
         return redirect()->route('admin.documents.index');
     }
+
 
 
     /**
